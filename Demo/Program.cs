@@ -30,9 +30,16 @@ namespace Demo
                 new MenuItem("Random number", PrintRandomNumber),
             };
             menu.Add(new MenuItem("Exit", () => menu.Hide()));
+
             menu["Colors"].Add(new MenuItem("Yellow", () => DrawLine(ConsoleColor.Yellow)));
             menu[1].Add(new MenuItem("Insane", () => Beep(15000)));
+
+            var selfReferenceItem = new MenuItem("Abyss");
+            selfReferenceItem.Add(selfReferenceItem);
+            menu.Add(selfReferenceItem);
+
             menu.ShowNavigationBar = true;
+            menu.CyclicScrolling = true;
             menu.Show();
             Console.ReadKey(true);
         }
