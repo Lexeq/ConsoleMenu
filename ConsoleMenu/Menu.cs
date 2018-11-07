@@ -13,6 +13,8 @@ namespace ConsoleMenu
 
         private MenuItem CurrentMenu { get; set; }
 
+        public bool CyclicScrolling { get; set; }
+
         public bool ShowNavigationBar { get; set; }
 
         public int SelectedIndex { get; set; }
@@ -83,11 +85,11 @@ namespace ConsoleMenu
                 switch (key)
                 {
                     case ConsoleKey.UpArrow:
-                        SelectedIndex = (CurrentMenu.Items.Count + SelectedIndex - 1) % CurrentMenu.Items.Count;
+                        MoveSelection(-1);
                         break;
 
                     case ConsoleKey.DownArrow:
-                        SelectedIndex = (CurrentMenu.Items.Count + SelectedIndex + 1) % CurrentMenu.Items.Count;
+                        MoveSelection(1);
                         break;
 
                     case ConsoleKey.RightArrow:
@@ -110,6 +112,19 @@ namespace ConsoleMenu
                     default:
                         break;
                 }
+            }
+        }
+
+        private void MoveSelection(int count)
+        {
+            if(CyclicScrolling)
+            {
+                SelectedIndex = (CurrentMenu.Items.Count + SelectedIndex + count) % CurrentMenu.Items.Count;
+            }
+            else
+            {
+                int newIdex = SelectedIndex + count;
+                SelectedIndex = Math.Max(0, (Math.Min(newIdex, Items.Count - 1)));
             }
         }
 
