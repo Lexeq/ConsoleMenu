@@ -13,8 +13,6 @@ namespace ConsoleMenu
 
         public List<MenuItem> Items { get; private set; }
 
-        public MenuItem Parent { get; protected set; }
-
         public string Title { get; private set; }
 
         public MenuItem this[string title]
@@ -49,7 +47,6 @@ namespace ConsoleMenu
 
         public void Add(MenuItem item)
         {
-            item.Parent = this;
             Items.Add(item);
         }
 

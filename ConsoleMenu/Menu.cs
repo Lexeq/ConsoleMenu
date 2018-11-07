@@ -9,9 +9,17 @@ namespace ConsoleMenu
 {
     public sealed class Menu : MenuItem
     {
+        private Stack<MenuItem> navigator;
+
         private bool Showing { get; set; }
 
-        private MenuItem CurrentMenu { get; set; }
+        private MenuItem CurrentMenu
+        {
+            get
+            {
+                return navigator.Peek();
+            }
+        }
 
         public bool CyclicScrolling { get; set; }
 
@@ -26,7 +34,8 @@ namespace ConsoleMenu
         public Menu(string title)
             : base(title)
         {
-            CurrentMenu = this;
+            navigator = new Stack<MenuItem>();
+            navigator.Push(this);
         }
 
         private void DrawMenu()
@@ -35,7 +44,7 @@ namespace ConsoleMenu
             Console.Clear();
             if (ShowNavigationBar)
             {
-                DrawLine(GetPath(CurrentMenu));
+                DrawLine(GetPath());
                 DrawLine(string.Empty);
             }
             for (int i = 0; i < CurrentMenu.Items.Count; i++)
@@ -59,12 +68,14 @@ namespace ConsoleMenu
             Console.WriteLine(text);
         }
 
-        private string GetPath(MenuItem item)
+        private string GetPath()
         {
-            if (item == null)
-                return string.Empty;
-
-            return GetPath(item.Parent) + item.Title + ">";
+            string path = string.Empty;
+            foreach (var item in navigator.Reverse())
+            {
+                path += item.Title + ">";
+            }
+            return path;
         }
 
         private void InvertColors()
@@ -100,7 +111,7 @@ namespace ConsoleMenu
                         mi.PerformAction();
                         if (mi.Items.Count > 0)
                         {
-                            CurrentMenu = CurrentMenu.Items[SelectedIndex];
+                            navigator.Push(mi);
                             SelectedIndex = 0;
                         }
                         break;
@@ -130,10 +141,10 @@ namespace ConsoleMenu
 
         private void NavigateBack()
         {
-            if (CurrentMenu.Parent == null)
+            if (navigator.Count == 1)
                 Hide();
             else
-                CurrentMenu = CurrentMenu.Parent;
+                navigator.Pop();
         }
 
         public void Hide()
