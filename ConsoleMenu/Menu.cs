@@ -135,7 +135,7 @@ namespace ConsoleMenu
             else
             {
                 int newIdex = SelectedIndex + count;
-                SelectedIndex = Math.Max(0, (Math.Min(newIdex, Items.Count - 1)));
+                SelectedIndex = Math.Max(0, (Math.Min(newIdex, CurrentMenu.Items.Count - 1)));
             }
         }
 
