@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConsoleMenu
 {
@@ -11,9 +8,11 @@ namespace ConsoleMenu
     {
         private Action Action { get; set; }
 
-        public List<MenuItem> Items { get; private set; }
+        private List<MenuItem> Items { get; }
 
         public string Title { get; private set; }
+
+        public int Count => Items.Count;
 
         public MenuItem this[string title]
         {
@@ -48,6 +47,21 @@ namespace ConsoleMenu
         public void Add(MenuItem item)
         {
             Items.Add(item);
+        }
+
+        public void Insert(int index, MenuItem item)
+        {
+            Items.Insert(index, item);
+        }
+
+        public void Remove(MenuItem item)
+        {
+            Items.Remove(item);
+        }
+
+        public void RemoveAt(int index)
+        {
+            Items.RemoveAt(index);
         }
 
         public void PerformAction()

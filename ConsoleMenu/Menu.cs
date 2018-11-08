@@ -47,17 +47,17 @@ namespace ConsoleMenu
                 DrawLine(GetPath());
                 DrawLine(string.Empty);
             }
-            for (int i = 0; i < CurrentMenu.Items.Count; i++)
+            for (int i = 0; i < CurrentMenu.Count; i++)
             {
                 if (i == SelectedIndex)
                 {
                     InvertColors();
-                    DrawLine(CurrentMenu.Items[i].ToString());
+                    DrawLine(CurrentMenu[i].ToString());
                     InvertColors();
                 }
                 else
                 {
-                    DrawLine(CurrentMenu.Items[i].ToString());
+                    DrawLine(CurrentMenu[i].ToString());
                 }
             }
 
@@ -105,11 +105,11 @@ namespace ConsoleMenu
 
                     case ConsoleKey.RightArrow:
                     case ConsoleKey.Enter:
-                        var mi = CurrentMenu.Items[SelectedIndex];
-                        if (mi.Items.Count == 0)
+                        var mi = CurrentMenu[SelectedIndex];
+                        if (mi.Count == 0)
                             Hide();
                         mi.PerformAction();
-                        if (mi.Items.Count > 0)
+                        if (mi.Count > 0)
                         {
                             navigator.Push(mi);
                             SelectedIndex = 0;
@@ -130,12 +130,12 @@ namespace ConsoleMenu
         {
             if(CyclicScrolling)
             {
-                SelectedIndex = (CurrentMenu.Items.Count + SelectedIndex + count) % CurrentMenu.Items.Count;
+                SelectedIndex = (CurrentMenu.Count + SelectedIndex + count) % CurrentMenu.Count;
             }
             else
             {
                 int newIdex = SelectedIndex + count;
-                SelectedIndex = Math.Max(0, (Math.Min(newIdex, CurrentMenu.Items.Count - 1)));
+                SelectedIndex = Math.Max(0, (Math.Min(newIdex, CurrentMenu.Count - 1)));
             }
         }
 
