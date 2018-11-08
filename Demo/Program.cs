@@ -36,7 +36,7 @@ namespace Demo
 
             var selfReferenceItem = new MenuItem("Abyss");
             selfReferenceItem.Add(selfReferenceItem);
-            menu.Add(selfReferenceItem);
+            menu.Insert(3, selfReferenceItem);
 
             menu.ShowNavigationBar = true;
             menu.CyclicScrolling = true;
