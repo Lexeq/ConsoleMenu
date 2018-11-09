@@ -40,6 +40,7 @@ namespace Demo
 
             menu.ShowNavigationBar = true;
             menu.CyclicScrolling = true;
+            menu.HorizontalAligment = MenuHorizontalAligment.Center;
             menu.Show();
             Console.ReadKey(true);
         }
