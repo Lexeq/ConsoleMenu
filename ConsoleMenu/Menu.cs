@@ -42,7 +42,6 @@ namespace ConsoleMenu
 
         private void DrawMenu()
         {
-            Console.ResetColor();
             Console.Clear();
 
             if (ShowNavigationBar)
