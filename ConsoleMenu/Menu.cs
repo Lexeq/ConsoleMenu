@@ -21,6 +21,8 @@ namespace ConsoleMenu
             }
         }
 
+        public MenuHorizontalAligment HorizontalAligment { get; set; }
+
         public bool CyclicScrolling { get; set; }
 
         public bool ShowNavigationBar { get; set; }
@@ -42,11 +44,13 @@ namespace ConsoleMenu
         {
             Console.ResetColor();
             Console.Clear();
+
             if (ShowNavigationBar)
             {
                 DrawLine(GetPath());
                 DrawLine(string.Empty);
             }
+
             for (int i = 0; i < CurrentMenu.Count; i++)
             {
                 if (i == SelectedIndex)
@@ -60,11 +64,16 @@ namespace ConsoleMenu
                     DrawLine(CurrentMenu[i].ToString());
                 }
             }
-
         }
 
         private void DrawLine(string text)
         {
+            int start = 0;
+            if (HorizontalAligment == MenuHorizontalAligment.Right)
+                start = Console.WindowWidth - text.Length - 1;
+            else if (HorizontalAligment == MenuHorizontalAligment.Center)
+                start = (Console.WindowWidth - text.Length) / 2;
+            Console.CursorLeft = start;
             Console.WriteLine(text);
         }
 
@@ -128,7 +137,7 @@ namespace ConsoleMenu
 
         private void MoveSelection(int count)
         {
-            if(CyclicScrolling)
+            if (CyclicScrolling)
             {
                 SelectedIndex = (CurrentMenu.Count + SelectedIndex + count) % CurrentMenu.Count;
             }
